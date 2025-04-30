@@ -1,0 +1,68 @@
+# Cocos2d-x 临时文件和编译产物
+
+# 编译输出目录（根据你的项目实际目录调整）
+test/proj.android
+test/proj.ios_mac
+test/proj.linux
+test/proj.win32/Debug.win32
+test/cocos2d
+
+
+# Cocos2d-x 生成的中间文件
+*.log
+*.tmp
+*.temp
+
+# MacOS 系统文件
+.DS_Store
+
+# Windows 系统文件
+Thumbs.db
+ehthumbs.db
+
+# Visual Studio 相关文件
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vcxproj.*
+*.vcxproj.filters
+*.vcxproj.user
+*.opensdf
+*.sdf
+*.ipch
+*.pdb
+
+# Xcode 相关文件
+*.xcworkspace
+*.xcuserdata
+*.xcuserstate
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+
+# Android Studio 相关文件
+.gradle/
+local.properties
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+
+# CMake 相关文件
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# 其他临时文件
+*.swp
+*.lock
+*.bak
+*.orig
+*.rej
+
+# 资源缓存
+res/import/
+res/raw-assets/
+
+# 其他忽略规则，根据项目需要自行添加
