@@ -2,6 +2,7 @@
 #define __CARD_VIEW_H__
 
 #include "cocos2d.h"
+#include<functional>
 // 枚举定义（简化版）
 enum CardSuitType {
     CST_CLUBS,      // 梅花（黑色）
@@ -39,6 +40,15 @@ public:
     bool clickable = true; // 是否可点击
     void onEnter()override;
     void onExit()override;
+
+    //
+    using ClickCallback = std::function<void(CardView*)>;
+    ClickCallback _clickCallback = NULL;
+    int _face = -1;
+    int _suit = -1;
+    void setClickCallback(const ClickCallback& cb) { _clickCallback = cb; }
+    int getFace() { return _face; }
+    int getSuit() { return _suit; }
 
 
 };

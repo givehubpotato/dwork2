@@ -126,10 +126,12 @@ void GameScene::createHandCards() {
         cardData.suit = cards[i].second;
         cardData.view = CardView::create(cardData.face, cardData.suit);
         cardData.view->setPosition(Vec2(startX + i * (cardSize.width + spacing), posY));
+        /*cardData.view->setClickCallback([this](CardView* clickedCard) {
+            MessageBox("aa", "bb");
+        });*/
         handArea->addChild(cardData.view);
         handCards.push_back(cardData);
     }
 
-   
 }
 
