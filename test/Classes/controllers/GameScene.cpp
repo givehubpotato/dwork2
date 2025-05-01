@@ -10,7 +10,7 @@ Scene* GameScene::createScene() {
 
 bool GameScene::init() {
     if (!Scene::init()) return false;
-
+    
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -32,15 +32,15 @@ bool GameScene::init() {
     this->addChild(handArea, 10);
 
     // 初始化牌容器
-    mainDeck.clear();
-    handCards.clear();
+    _mainDeck.clear();
+    _handCards.clear();
 
     // 创建示例卡牌
     createMainDeckCards();
     createHandCards();
     //初始化栈
-    if (st.empty()) {
-        st.push(handCards[handCards.size()-1].view->_face);
+    if (_st.empty()) {
+        _st.push(_handCards[_handCards.size()-1].view->_face);
     }
 
     //回退按钮
@@ -62,21 +62,23 @@ bool GameScene::init() {
 }
 
 
+
+
 //回退1
 // 刷新手牌显示，按handCards顺序排列
 void GameScene::refreshHandCardsDisplay() {
-    for (int i = 0; i < handCards.size(); ++i) {
-        auto cardView = handCards[i].view;
+    for (int i = 0; i < _handCards.size(); ++i) {
+        auto cardView = _handCards[i].view;
         auto targetPos = Vec2(100 + i * 120, 200);
         cardView->stopAllActions();
         cardView->runAction(MoveTo::create(0.3f, targetPos));
     }
 }
 
-void GameScene::ResetPos() {
+void GameScene::resetPos() {
     float offsetX = 60.0f;
     float offsetY = 80.0f;
-    for (auto& card : handCards) {
+    for (auto& card : _handCards) {
         Vec2 curPos = card.view->getPosition();
         Vec2 newPos = Vec2(curPos.x - offsetX, curPos.y - offsetY);
         card.view->setPosition(newPos);
@@ -85,17 +87,17 @@ void GameScene::ResetPos() {
 
 // 回退操作，播放相反动画
 void GameScene::onButtonClicked() {
-    if (OpStack.empty()) {
+    if (_OpStack.empty()) {
         MessageBox("no operation can back", "GameTips");
         return;
     }
 
-    OperationRecord op = OpStack.top();
-    OpStack.pop();
+    OperationRecord op = _OpStack.top();
+    _OpStack.pop();
 
     if (op.type == OperationType::SwapHandCards) {
-        auto card1 = handCards[op.handCardIndex1].view;
-        auto card2 = handCards[op.handCardIndex2].view;
+        auto card1 = _handCards[op.handCardIndex1].view;
+        auto card2 = _handCards[op.handCardIndex2].view;
 
         // 播放回退动画：从 posAfter 移动回 posBefore
         auto moveBack1 = MoveTo::create(0.5f, op.pos1Before);
@@ -103,20 +105,20 @@ void GameScene::onButtonClicked() {
 
         auto swapBack = CallFunc::create([this, op]() {
             // 交换数据结构中的牌，恢复之前顺序
-            std::swap(handCards[op.handCardIndex1], handCards[op.handCardIndex2]);
+            std::swap(_handCards[op.handCardIndex1], _handCards[op.handCardIndex2]);
 
             // 更新CardView中的index，保持同步
-            handCards[op.handCardIndex1].view->index = op.handCardIndex1;
-            handCards[op.handCardIndex2].view->index = op.handCardIndex2;
+            _handCards[op.handCardIndex1].view->_index = op.handCardIndex1;
+            _handCards[op.handCardIndex2].view->_index = op.handCardIndex2;
 
             // 顶部牌显示在最上层
-            handCards[op.handCardIndex2].view->getParent()->reorderChild(handCards[op.handCardIndex2].view, 200);
+            _handCards[op.handCardIndex2].view->getParent()->reorderChild(_handCards[op.handCardIndex2].view, 200);
 
             // 刷新手牌显示位置
             refreshHandCardsDisplay();
 
             //修正
-            ResetPos();
+            resetPos();
             });
 
         card1->runAction(Sequence::create(moveBack1, swapBack, nullptr));
@@ -134,8 +136,8 @@ void GameScene::onButtonClicked() {
 
         auto matchBack = CallFunc::create([this, op, card]() {
             // 数据回退：弹出栈顶点数
-            if (!st.empty()) {
-                st.pop();
+            if (!_st.empty()) {
+                _st.pop();
             }
 
             });
@@ -191,7 +193,7 @@ void GameScene::createMainDeckCards() {
             });
 
         playfieldArea->addChild(cardData.view);
-        mainDeck.push_back(cardData);
+        _mainDeck.push_back(cardData);
     }
 
     for (int i = 0; i < count; ++i) {
@@ -208,7 +210,7 @@ void GameScene::createMainDeckCards() {
             });
 
         playfieldArea->addChild(cardData.view);
-        mainDeck.push_back(cardData);
+        _mainDeck.push_back(cardData);
     }
     
 }
@@ -241,7 +243,7 @@ void GameScene::createHandCards() {
         cardData.face = cards[i].first;
         cardData.suit = cards[i].second;
         cardData.view = CardView::create(cardData.face, cardData.suit);
-        cardData.view->index = i;
+        cardData.view->_index = i;
         cardData.view->_face= cards[i].first;//
         cardData.view->setPosition(Vec2(startX + i * (cardSize.width + spacing), posY));
 
@@ -251,7 +253,7 @@ void GameScene::createHandCards() {
             });
 
         handArea->addChild(cardData.view);
-        handCards.push_back(cardData);
+        _handCards.push_back(cardData);
     }
     
 }
@@ -259,26 +261,26 @@ void GameScene::createHandCards() {
 
 void GameScene::onHandCardClicked(CardView* clickedCard) {
 
-    int topIndex = (int)handCards.size() - 1;
-    int currentIndex = clickedCard->index;
+    int topIndex = _handCards.size() - 1;
+    int currentIndex = clickedCard->_index;
     
     if (currentIndex == topIndex) {
         return;
     }
 
-    Vec2 clickedPos = handCards[currentIndex].view->getPosition();
-    Vec2 topPos = handCards[topIndex].view->getPosition();
+    Vec2 clickedPos = _handCards[currentIndex].view->getPosition();
+    Vec2 topPos = _handCards[topIndex].view->getPosition();
     
     // 动画：点击牌移动到顶部牌位置,顶部牌到点击牌位置
     auto moveClickedToTop = MoveTo::create(0.5f, topPos);
-    handCards[currentIndex].view->runAction(moveClickedToTop);
+    _handCards[currentIndex].view->runAction(moveClickedToTop);
     auto moveTop = MoveTo::create(0.5f, clickedPos);
-    handCards[topIndex].view->runAction(moveTop);
+    _handCards[topIndex].view->runAction(moveTop);
     //
     // 记录操作信息
     // 记录交换前位置
-    Vec2 posCurrentBefore = handCards[currentIndex].view->getPosition();
-    Vec2 posTopBefore = handCards[topIndex].view->getPosition();
+    Vec2 posCurrentBefore = _handCards[currentIndex].view->getPosition();
+    Vec2 posTopBefore = _handCards[topIndex].view->getPosition();
     OperationRecord op;
     op.type = OperationType::SwapHandCards;
     op.handCardIndex1 = currentIndex;
@@ -288,37 +290,37 @@ void GameScene::onHandCardClicked(CardView* clickedCard) {
     op.pos1After = posTopBefore;
     op.pos2After = posCurrentBefore;
 
-    OpStack.push(op);
+    _OpStack.push(op);
     //
     
     //数据交换
     // 立即交换容器数据和更新索引
-    std::swap(handCards[currentIndex], handCards[topIndex]);
+    std::swap(_handCards[currentIndex], _handCards[topIndex]);
 
     // 更新CardView中的index，保持同步
-    handCards[currentIndex].view->index = currentIndex;
-    handCards[topIndex].view->index = topIndex;
+    _handCards[currentIndex].view->_index = currentIndex;
+    _handCards[topIndex].view->_index = topIndex;
 
     //更新栈
-    st.pop();
-    st.push(handCards[topIndex].view->_face);
+    _st.pop();
+    _st.push(_handCards[topIndex].view->_face);
     //顶部牌显示在最上层
-    handCards[topIndex].view->getParent()->reorderChild(handCards[topIndex].view, 200);
+    _handCards[topIndex].view->getParent()->reorderChild(_handCards[topIndex].view, 200);
 }
 
 void GameScene::onMainCardClicked(CardView* clickedCard) {
     
-    int topIndex = (int)handCards.size() - 1;
+    int topIndex = _handCards.size() - 1;
     int currentFace = clickedCard->_face;
     
-    int topFace = st.top();
+    int topFace = _st.top();
     if (std::abs(currentFace-topFace) > 1) {
         return;
     }
     //目标坐标
     //Vec2 topPos = handCards[topIndex].view->getPosition();
-    Vec2 topPos = handCards[topIndex].view->getParent()->convertToWorldSpace(
-        handCards[topIndex].view->getPosition()
+    Vec2 topPos = _handCards[topIndex].view->getParent()->convertToWorldSpace(
+        _handCards[topIndex].view->getPosition()
     );
     topPos = clickedCard->getParent()->convertToNodeSpace(topPos);
     //回退操作记录
@@ -327,13 +329,13 @@ void GameScene::onMainCardClicked(CardView* clickedCard) {
     op.matchedCard = { clickedCard->_face, clickedCard->_suit, clickedCard };
     op.posBefore = clickedCard->getPosition();
     op.posAfter = topPos;
-    OpStack.push(op);
+    _OpStack.push(op);
 
     // 
     // 动画：点击牌移动到顶部牌位置,顶部牌被覆盖
     auto moveClickedToTop = MoveTo::create(0.5f, topPos);
     clickedCard->runAction(moveClickedToTop);
     //数据部分
-    st.push(clickedCard->_face);
+    _st.push(clickedCard->_face);
     
 }

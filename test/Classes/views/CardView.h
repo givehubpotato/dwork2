@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include<functional>
-// 枚举定义（简化版）
+// 枚举定义花色和牌面
 enum CardSuitType {
     CST_CLUBS,      // 梅花（黑色）
     CST_DIAMONDS,   // 方块（红色）
@@ -19,6 +19,10 @@ enum CardFaceType {
     CFT_KING = 13
 };
 class CardView : public cocos2d::Node {
+/*
+*   CardView类负责显示指定点数和花色的卡牌图像
+*   处理用户点击事件并回调通知外部
+*/
 public:
     // 创建函数，传入点数和花色
     static CardView* create(int face, int suit);
@@ -36,32 +40,25 @@ private:
     std::string getFaceName(int face);
     std::string getSuitName(int suit);
 public:
-
-    bool clickable = true; // 是否可点击
+    //创建单点触摸监听器，监听用户点击并回调
     void onEnter()override;
+
+    //注销事件监听器
     void onExit()override;
 
-    //
     using ClickCallback = std::function<void(CardView*)>;
     ClickCallback _clickCallback = NULL;
     int _face = -1;
     int _suit = -1;
-    void setClickCallback(const ClickCallback& cb) { _clickCallback = cb; }
-    int getFace() { return _face; }
-    int getSuit() { return _suit; }
 
-    //
+    //提供接口给外部代码注册自定义回调函数
+    void setClickCallback(const ClickCallback& cb);
+
 private:
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
 
 public:
-    int index;//索引
-    void setTouchEnabled(bool enabled) {
-        if (_touchListener) {
-            _touchListener->setEnabled(enabled);
-        }
-    }
-
+    int _index;//索引
 
 };
 

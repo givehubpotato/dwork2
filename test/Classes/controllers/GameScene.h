@@ -39,53 +39,62 @@ struct OperationRecord {
 //
 
 class GameScene : public cocos2d::Scene {
+/*
+*   管理主牌区和手牌区的数据和视图绑定
+*   创建和显示卡牌
+*   处理用户点击卡牌的交互逻辑
+*   维护操作记录，实现操作回退功能
+*   控制牌的显示顺序和位置布局
+*/
 public:
+    //创建游戏场景
     static cocos2d::Scene* createScene();
 
+    //初始化游戏场景
     virtual bool init() override;
 
     CREATE_FUNC(GameScene);
 
 private:
     // 主牌区容器，存储主牌堆的牌数据
-    std::vector<CardData> mainDeck;
+    std::vector<CardData> _mainDeck;
 
     // 手牌区容器，存储手牌区的牌数据
-    std::vector<CardData> handCards;
+    std::vector<CardData> _handCards;
 
     // 主牌区和手牌区显示节点
     Node* playfieldArea = nullptr;
     Node* handArea = nullptr;
 
 
-    // 示例函数：创建卡牌并添加到主牌区
+    //创建卡牌并添加到主牌区
     void createMainDeckCards();
 
-    // 示例函数：创建卡牌并添加到手牌区
+    //创建卡牌并添加到手牌区
     void createHandCards();
 
 public:
+    //手牌区的点击回调
     void onHandCardClicked(CardView* clickedCard);
 
+    //主牌区的点击回调
     void onMainCardClicked(CardView* clickedCard);
 
-    //顶牌栈
-    std::stack<int>st;//顶牌数据栈
+    //手牌区的顶牌牌面数据栈
+    std::stack<int>_st;
 
-    //回退
-    //void onButtonClicked();
-    //回退1
-     // 操作记录栈
-    std::stack<OperationRecord> OpStack;
+    //回退相关
+    //操作记录栈
+    std::stack<OperationRecord> _OpStack;
 
-    // 回退按钮点击
+    // 回退按钮点击回调
     void onButtonClicked();
 
     // 刷新手牌显示（根据handCards顺序）
     void refreshHandCardsDisplay();
 
     //修正位置
-    void ResetPos();
+    void resetPos();
 
 };
 

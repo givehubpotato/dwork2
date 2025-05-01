@@ -112,10 +112,6 @@ std::string CardView::getSuitName(int suit) {
     }
 }
 
-//回调
-void test() {
-    MessageBox("aa", "bb");
-}
 
 void CardView::onEnter() {
     Node::onEnter();
@@ -131,9 +127,7 @@ void CardView::onEnter() {
             if (_clickCallback) {
                 _clickCallback(this);
             }
-            else {
-                test();
-            }
+            
             return true; // 捕获事件
         }
         return false;
@@ -143,10 +137,9 @@ void CardView::onEnter() {
     
 }
 
-
-
 void CardView::onExit() {
     Node::onExit();
     _eventDispatcher->removeEventListenersForTarget(this);
 }
 
+void CardView::setClickCallback(const ClickCallback& cb) { _clickCallback = cb; }
