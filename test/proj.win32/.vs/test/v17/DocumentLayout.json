@@ -22,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
@@ -32,9 +32,22 @@
               "RelativeDocumentMoniker": "..\\Classes\\controllers\\GameScene.h",
               "ToolTip": "D:\\dwork\\test\\Classes\\controllers\\GameScene.h",
               "RelativeToolTip": "..\\Classes\\controllers\\GameScene.h",
-              "ViewState": "AgIAACIAAAAAAAAAAADwvyoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADcAAAAAAAAAAAAAwCQAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-05-01T07:50:18.574Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GameScene.cpp",
+              "DocumentMoniker": "D:\\dwork\\test\\Classes\\controllers\\GameScene.cpp",
+              "RelativeDocumentMoniker": "..\\Classes\\controllers\\GameScene.cpp",
+              "ToolTip": "D:\\dwork\\test\\Classes\\controllers\\GameScene.cpp",
+              "RelativeToolTip": "..\\Classes\\controllers\\GameScene.cpp",
+              "ViewState": "AgIAAEUBAAAAAAAAAAAAAEsBAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-04-30T21:19:18.141Z",
               "EditorCaption": ""
             },
             {
@@ -45,7 +58,7 @@
               "RelativeDocumentMoniker": "..\\Classes\\views\\CardView.h",
               "ToolTip": "D:\\dwork\\test\\Classes\\views\\CardView.h",
               "RelativeToolTip": "..\\Classes\\views\\CardView.h",
-              "ViewState": "AgIAADAAAAAAAAAAAADwvzkAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAADAAAAAAAAAAAADwvz8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-04-30T21:21:17.516Z",
               "EditorCaption": ""
@@ -58,22 +71,9 @@
               "RelativeDocumentMoniker": "..\\Classes\\views\\CardView.cpp",
               "ToolTip": "D:\\dwork\\test\\Classes\\views\\CardView.cpp",
               "RelativeToolTip": "..\\Classes\\views\\CardView.cpp",
-              "ViewState": "AgIAAH8AAAAAAAAAAAAAwIwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-04-30T21:19:26.019Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "GameScene.cpp",
-              "DocumentMoniker": "D:\\dwork\\test\\Classes\\controllers\\GameScene.cpp",
-              "RelativeDocumentMoniker": "..\\Classes\\controllers\\GameScene.cpp",
-              "ToolTip": "D:\\dwork\\test\\Classes\\controllers\\GameScene.cpp",
-              "RelativeToolTip": "..\\Classes\\controllers\\GameScene.cpp",
-              "ViewState": "AgIAAKwAAAAAAAAAAAAAwLMAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-04-30T21:19:18.141Z",
               "EditorCaption": ""
             }
           ]

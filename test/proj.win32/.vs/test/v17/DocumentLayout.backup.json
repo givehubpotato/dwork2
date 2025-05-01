@@ -22,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
@@ -32,33 +32,10 @@
               "RelativeDocumentMoniker": "..\\Classes\\controllers\\GameScene.h",
               "ToolTip": "D:\\dwork\\test\\Classes\\controllers\\GameScene.h",
               "RelativeToolTip": "..\\Classes\\controllers\\GameScene.h",
-              "ViewState": "AgIAACIAAAAAAAAAAADwvyoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADcAAAAAAAAAAAAAwCQAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-05-01T07:50:18.574Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CardView.h",
-              "DocumentMoniker": "D:\\dwork\\test\\Classes\\views\\CardView.h",
-              "RelativeDocumentMoniker": "..\\Classes\\views\\CardView.h",
-              "ToolTip": "D:\\dwork\\test\\Classes\\views\\CardView.h",
-              "RelativeToolTip": "..\\Classes\\views\\CardView.h",
-              "ViewState": "AgIAADAAAAAAAAAAAADwvzkAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-04-30T21:21:17.516Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CardView.cpp",
-              "DocumentMoniker": "D:\\dwork\\test\\Classes\\views\\CardView.cpp",
-              "RelativeDocumentMoniker": "..\\Classes\\views\\CardView.cpp",
-              "ToolTip": "D:\\dwork\\test\\Classes\\views\\CardView.cpp",
-              "RelativeToolTip": "..\\Classes\\views\\CardView.cpp",
-              "ViewState": "AgIAAH8AAAAAAAAAAAAAwIwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-04-30T21:19:26.019Z"
+              "WhenOpened": "2025-05-01T07:50:18.574Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -68,9 +45,35 @@
               "RelativeDocumentMoniker": "..\\Classes\\controllers\\GameScene.cpp",
               "ToolTip": "D:\\dwork\\test\\Classes\\controllers\\GameScene.cpp",
               "RelativeToolTip": "..\\Classes\\controllers\\GameScene.cpp",
-              "ViewState": "AgIAAKMAAAAAAAAAAAAAwLMAAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAAD8BAAAAAAAAAAAAAEsBAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-04-30T21:19:18.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CardView.h",
+              "DocumentMoniker": "D:\\dwork\\test\\Classes\\views\\CardView.h",
+              "RelativeDocumentMoniker": "..\\Classes\\views\\CardView.h",
+              "ToolTip": "D:\\dwork\\test\\Classes\\views\\CardView.h",
+              "RelativeToolTip": "..\\Classes\\views\\CardView.h",
+              "ViewState": "AgIAADAAAAAAAAAAAADwvz8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-04-30T21:21:17.516Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CardView.cpp",
+              "DocumentMoniker": "D:\\dwork\\test\\Classes\\views\\CardView.cpp",
+              "RelativeDocumentMoniker": "..\\Classes\\views\\CardView.cpp",
+              "ToolTip": "D:\\dwork\\test\\Classes\\views\\CardView.cpp",
+              "RelativeToolTip": "..\\Classes\\views\\CardView.cpp",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-04-30T21:19:26.019Z",
               "EditorCaption": ""
             }
           ]

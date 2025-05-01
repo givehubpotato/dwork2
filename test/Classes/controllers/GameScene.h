@@ -4,12 +4,39 @@
 #include "cocos2d.h"
 #include"views/CardView.h"
 #include<vector>
+#include<algorithm>
 
 struct CardData {
     int face;          // 牌点数，如 CFT_ACE
     int suit;          // 花色，如 CST_HEARTS
     CardView* view;    // 对应的显示节点
 };
+
+//回退相关
+// 操作类型
+enum class OperationType {
+    SwapHandCards,
+    MatchCards
+};
+
+// 操作记录结构体
+struct OperationRecord {
+    OperationType type;
+
+    // 交换操作相关数据
+    int handCardIndex1;
+    int handCardIndex2;
+    cocos2d::Vec2 pos1Before;
+    cocos2d::Vec2 pos2Before;
+    cocos2d::Vec2 pos1After;
+    cocos2d::Vec2 pos2After;
+
+    // 匹配操作相关数据
+    CardData matchedCard;       // 匹配的牌数据
+    cocos2d::Vec2 posBefore;    // 匹配牌原始位置
+    cocos2d::Vec2 posAfter;     // 匹配牌移动到顶部牌位置
+};
+//
 
 class GameScene : public cocos2d::Scene {
 public:
@@ -38,8 +65,27 @@ private:
     void createHandCards();
 
 public:
-    void GameScene::onHandCardClicked(CardView* clickedCard);
-    void GameScene::updateHandCardsIndex();
+    void onHandCardClicked(CardView* clickedCard);
+
+    void onMainCardClicked(CardView* clickedCard);
+
+    //顶牌栈
+    std::stack<int>st;//顶牌数据栈
+
+    //回退
+    //void onButtonClicked();
+    //回退1
+     // 操作记录栈
+    std::stack<OperationRecord> OpStack;
+
+    // 回退按钮点击
+    void onButtonClicked();
+
+    // 刷新手牌显示（根据handCards顺序）
+    void refreshHandCardsDisplay();
+
+    //修正位置
+    void ResetPos();
 
 };
 
