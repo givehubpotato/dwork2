@@ -37,6 +37,10 @@ private:
     // 示例函数：创建卡牌并添加到手牌区
     void createHandCards();
 
+public:
+    void GameScene::onHandCardClicked(CardView* clickedCard);
+    void GameScene::updateHandCardsIndex();
+
 };
 
 #endif // __GAME_SCENE_H__

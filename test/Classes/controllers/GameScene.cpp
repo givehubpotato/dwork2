@@ -42,7 +42,6 @@ bool GameScene::init() {
 }
 
 void GameScene::createMainDeckCards() {
-    // 示例：创建6张主牌区卡牌，分两列垂直排列
     std::vector<std::pair<int, int>> col1 = {
         {CFT_THREE, CST_DIAMONDS},
         {CFT_THREE, CST_CLUBS},
@@ -59,7 +58,6 @@ void GameScene::createMainDeckCards() {
     float col1X = areaSize.width * 0.3f;
     float col2X = areaSize.width * 0.6f;
 
-    // 先创建一张卡牌获取尺寸
     auto tempCard = CardView::create(CFT_THREE, CST_CLUBS);
     Size cardSize = tempCard ? tempCard->getContentSize() * tempCard->getScale() : Size(100, 150);
     if (tempCard) tempCard->removeFromParent();
@@ -71,18 +69,22 @@ void GameScene::createMainDeckCards() {
     if (spacing > maxSpacing) spacing = maxSpacing;
 
     float startY = spacing;
-    
+
     for (int i = 0; i < count; ++i) {
         CardData cardData;
         cardData.face = col1[i].first;
         cardData.suit = col1[i].second;
         cardData.view = CardView::create(cardData.face, cardData.suit);
         cardData.view->setPosition(Vec2(col1X, startY + i * (cardSize.height + spacing)));
+
+        // 绑定点击回调
+        cardData.view->setClickCallback([this](CardView* clickedCard) {
+            MessageBox("ccc", "ddd");
+            });
+
         playfieldArea->addChild(cardData.view);
         mainDeck.push_back(cardData);
-
     }
-
 
     for (int i = 0; i < count; ++i) {
         CardData cardData;
@@ -90,14 +92,18 @@ void GameScene::createMainDeckCards() {
         cardData.suit = col2[i].second;
         cardData.view = CardView::create(cardData.face, cardData.suit);
         cardData.view->setPosition(Vec2(col2X, startY + i * (cardSize.height + spacing)));
+
+        cardData.view->setClickCallback([this](CardView* clickedCard) {
+            MessageBox("ccc", "ddd");
+            });
+
         playfieldArea->addChild(cardData.view);
         mainDeck.push_back(cardData);
-        //cocos2d::MessageBox("Hero","Here");
     }
 }
 
+
 void GameScene::createHandCards() {
-    // 示例：创建3张手牌区卡牌，横向排列
     std::vector<std::pair<int, int>> cards = {
         {CFT_THREE, CST_CLUBS},
         {CFT_ACE, CST_HEARTS},
@@ -106,7 +112,6 @@ void GameScene::createHandCards() {
 
     Size areaSize = handArea->getContentSize();
 
-    // 先创建一张卡牌获取尺寸
     auto tempCard = CardView::create(CFT_THREE, CST_CLUBS);
     Size cardSize = tempCard ? tempCard->getContentSize() * tempCard->getScale() : Size(100, 150);
     if (tempCard) tempCard->removeFromParent();
@@ -125,13 +130,52 @@ void GameScene::createHandCards() {
         cardData.face = cards[i].first;
         cardData.suit = cards[i].second;
         cardData.view = CardView::create(cardData.face, cardData.suit);
+        cardData.view->index = i;
         cardData.view->setPosition(Vec2(startX + i * (cardSize.width + spacing), posY));
-        /*cardData.view->setClickCallback([this](CardView* clickedCard) {
-            MessageBox("aa", "bb");
-        });*/
+
+        cardData.view->setClickCallback([this](CardView* clickedCard) {
+            this->onHandCardClicked(clickedCard);
+            //MessageBox("hand", "card");
+            });
+
         handArea->addChild(cardData.view);
         handCards.push_back(cardData);
     }
-
 }
 
+void GameScene::updateHandCardsIndex() {
+    for (int i = 0; i <handCards.size(); i++) {
+        handCards[i].view->index=i;
+    }
+}
+
+
+void GameScene::onHandCardClicked(CardView* clickedCard) {
+
+    int topIndex = (int)handCards.size() - 1;
+    int currentIndex = clickedCard->index;
+    
+    if (currentIndex == topIndex) {
+        return;
+    }
+
+    Vec2 clickedPos = handCards[currentIndex].view->getPosition();
+    Vec2 topPos = handCards[topIndex].view->getPosition();
+
+    // 动画：点击牌移动到顶部牌位置,顶部牌到点击牌位置
+    auto moveClickedToTop = MoveTo::create(0.5f, topPos);
+    handCards[currentIndex].view->runAction(moveClickedToTop);
+    auto moveTop = MoveTo::create(0.5f, clickedPos);
+    handCards[topIndex].view->runAction(moveTop);
+
+    //数据交换
+    // 立即交换容器数据和更新索引
+    std::swap(handCards[currentIndex], handCards[topIndex]);
+
+    // 更新CardView中的index，保持同步
+    handCards[currentIndex].view->index = currentIndex;
+    handCards[topIndex].view->index = topIndex;
+
+    //顶部牌显示在最上层
+    //handCards[topIndex].view->getParent()->reorderChild(handCards[topIndex].view, 100);
+}

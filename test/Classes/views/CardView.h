@@ -50,6 +50,17 @@ public:
     int getFace() { return _face; }
     int getSuit() { return _suit; }
 
+    //
+private:
+    cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
+
+public:
+    int index;//Ë÷Òı
+    void setTouchEnabled(bool enabled) {
+        if (_touchListener) {
+            _touchListener->setEnabled(enabled);
+        }
+    }
 
 };
 

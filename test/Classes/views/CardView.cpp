@@ -12,20 +12,19 @@ CardView* CardView::create(int face, int suit) {
     return nullptr;
 }
 
-
 bool CardView::init(int face, int suit) {
     if (!Node::init()) return false;
 
-    // 1. 底图，路径加上 "res/"
-    background = Sprite::create("res/card_general.png");
-    if (!background) {
-        CCLOG("Error: res/card_general.png not found");
-        return false;
-    }
-    background->setAnchorPoint(Vec2::ZERO);
-    this->addChild(background);
+    // 1. 创建SpriteBatchNode，绑定一张大图（这里用背景图）
+    auto batchNode = SpriteBatchNode::create("res/card_general.png");
+    this->addChild(batchNode);
 
-    // 2. 判断是否支持的牌
+    // 2. 创建背景Sprite，添加到batchNode
+    background = Sprite::create("res/card_general.png");
+    background->setAnchorPoint(Vec2::ZERO);
+    batchNode->addChild(background);
+
+    // 3. 判断是否支持的牌
     std::string faceName = getFaceName(face);
     std::string suitName = getSuitName(suit);
 
@@ -48,54 +47,45 @@ bool CardView::init(int face, int suit) {
     // 3. 根据花色判断颜色，方块和红桃为红色，其余为黑色
     std::string colorStr = (suit == CST_DIAMONDS || suit == CST_HEARTS) ? "red" : "black";
 
-    // 4. 小数字图片名，路径加上 "res/"
+    // 4. 创建小数字Sprite，单独加载
     std::string smallNumFile = "res/number/small_" + colorStr + "_" + faceName + ".png";
     smallNumber = Sprite::create(smallNumFile);
     if (smallNumber) {
-        smallNumber->setAnchorPoint(Vec2(0, 1)); // 左上角锚点
-        // 位置：左上角，距离左边30
-        smallNumber->setPosition(Vec2(30, background->getContentSize().height-2));
-        background->addChild(smallNumber);
+        smallNumber->setAnchorPoint(Vec2(0, 1));
+        smallNumber->setPosition(Vec2(30, background->getContentSize().height - 2));
+        this->addChild(smallNumber);
     }
     else {
         CCLOG("Error: %s not found", smallNumFile.c_str());
     }
 
-    // 5. 大数字图片名，路径加上 "res/"
+    // 5. 创建大数字Sprite，单独加载
     std::string bigNumFile = "res/number/big_" + colorStr + "_" + faceName + ".png";
     bigNumber = Sprite::create(bigNumFile);
     if (bigNumber) {
         bigNumber->setAnchorPoint(Vec2(0.5f, 0.5f));
         bigNumber->setPosition(Vec2(background->getContentSize().width / 2, background->getContentSize().height / 2));
-        background->addChild(bigNumber);
+        this->addChild(bigNumber);
     }
     else {
         CCLOG("Error: %s not found", bigNumFile.c_str());
     }
 
-    // 6. 花色图标图片名，路径加上 "res/"
+    // 6. 创建花色图标Sprite，单独加载
     std::string suitFile = "res/suits/" + suitName + ".png";
     suitIcon = Sprite::create(suitFile);
     if (suitIcon) {
-        suitIcon->setAnchorPoint(Vec2(1, 1)); // 右上角锚点
-        // 位置：右上角，距离右边30
-        suitIcon->setPosition(Vec2(background->getContentSize().width - 30, background->getContentSize().height-2));
-        background->addChild(suitIcon);
+        suitIcon->setAnchorPoint(Vec2(1, 1));
+        suitIcon->setPosition(Vec2(background->getContentSize().width - 30, background->getContentSize().height - 2));
+        this->addChild(suitIcon);
     }
     else {
         CCLOG("Error: %s not found", suitFile.c_str());
     }
 
-
-    // 7. 设置CardView内容大小为背景大小，方便布局
+    // 7. 设置内容大小和缩放
     this->setContentSize(background->getContentSize());
-
-    // 8. 整体放大1.4倍
     this->setScale(1.4f);
-
-    //
-    
-
 
     return true;
 }
@@ -129,29 +119,34 @@ void test() {
 
 void CardView::onEnter() {
     Node::onEnter();
+    _touchListener = EventListenerTouchOneByOne::create();
+    _touchListener->setSwallowTouches(true);
 
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
-
-    listener->onTouchBegan = [this](Touch* touch, Event* event) {
+    _touchListener->onTouchBegan = [this](Touch* touch, Event* event) {
+        // 将触摸点转换到CardView节点坐标系
         Vec2 locationInNode = this->convertToNodeSpace(touch->getLocation());
-        Size size = this->getContentSize();
-        Vec2 anchor = this->getAnchorPoint();
-        Rect rect(-size.width * anchor.x, -size.height * anchor.y, size.width, size.height);
+        Rect rect(Vec2::ZERO, this->getContentSize());
 
         if (rect.containsPoint(locationInNode)) {
-            test();
+            if (_clickCallback) {
+                _clickCallback(this);
+            }
+            else {
+                test();
+            }
             return true; // 捕获事件
         }
         return false;
         };
 
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, this);
+    
 }
+
+
 
 void CardView::onExit() {
     Node::onExit();
     _eventDispatcher->removeEventListenersForTarget(this);
 }
-
 
