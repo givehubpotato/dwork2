@@ -4,7 +4,7 @@
 test/proj.android
 test/proj.ios_mac
 test/proj.linux
-test/proj.win32/Debug.win32
+
 test/cocos2d
 
 
